@@ -30,12 +30,15 @@ namespace EmployeeManagement
         {
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("EmployeeDBConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 10;
                 options.Password.RequiredUniqueChars = 3;
             }).AddEntityFrameworkStores<AppDbContext>();
 
+
+            //this requires the entire application to use authentication unless specified by the
+            //Anonymouse decoration.
             services.AddMvc(options => {
                 var policy = new AuthorizationPolicyBuilder()
                                 .RequireAuthenticatedUser()
