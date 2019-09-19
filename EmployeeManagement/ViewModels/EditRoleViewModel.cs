@@ -9,7 +9,7 @@ namespace EmployeeManagement.ViewModels
     public class EditRoleViewModel
     {
         //we have to intialize users with a ctor because we have to run
-        //.Any on it in the edit roles view and or it will throw an exception
+        //.Any on it in the editRoles view or it will throw an exception
         public EditRoleViewModel()
         {
             Users = new List<string>();

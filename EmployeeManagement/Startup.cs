@@ -36,7 +36,6 @@ namespace EmployeeManagement
                 options.Password.RequiredUniqueChars = 3;
             }).AddEntityFrameworkStores<AppDbContext>();
 
-
             //this requires the entire application to use authentication unless specified by the
             //Anonymouse decoration.
             services.AddMvc(options => {
@@ -45,8 +44,10 @@ namespace EmployeeManagement
                                 .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
             }).AddXmlSerializerFormatters();
+
+            //Dependency Injection: Gives SQLEmployeeRepository when a request for IEmployeeRepsoitory
+            //interface is requested.
             services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
-           // services.AddLogging();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,7 +62,6 @@ namespace EmployeeManagement
                 app.UseExceptionHandler("/Error");
                 app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
-
 
             app.UseStaticFiles();
             app.UseAuthentication();
