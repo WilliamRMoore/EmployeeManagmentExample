@@ -4,11 +4,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Models;
 using EmployeeManagement.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Controllers
 {
+    [Authorize(Roles = "Admin")]
+
+    //[Authorize(Roles = "Admin,User")] <--- One or the other can access this controller
+
+    //[Authorize(Roles = "User")]  <---| Must belong to both roles to access this controller
+    //[Authorize(Roles = "Admin")] <---|
     public class AdministrationController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
@@ -20,6 +27,14 @@ namespace EmployeeManagement.Controllers
             this.roleManager = roleManager;
             this.userManager = userManager;
         }
+
+        [HttpGet]
+        public IActionResult ListUsers()
+        {
+            var users = userManager.Users;
+            return View(users);
+        }
+
 
         [HttpGet]
         public IActionResult CreateRole()
